@@ -1,0 +1,162 @@
+// Q2 Window Bash Script
+pipeline {
+    agent any
+
+    stages {
+        stage('Create Folder') {
+            steps {
+                bat '''mkdir C:\\Users\\AS\\Desktop\\Infuse\\Workspace\\Jenkins\\Test'''
+                echo 'Folder Created'
+            }
+        }
+        stage('Create File') {
+            steps {
+                bat '''cd C:\\Users\\AS\\Desktop\\Infuse\\Workspace\\Jenkins\\Test
+                echo test content>testfile.txt
+                '''
+                echo 'file Created'
+            }
+        }
+    }
+}
+
+
+// Q3 Build and Test Two Stages
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo "$env.STAGE_NAME"
+            }
+        }
+        stage('Stage 2') {
+            steps {
+                echo "$env.STAGE_NAME"
+            }
+        }
+    }
+}
+
+
+// Q5 Find duplicate characters in a string in Java.
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build and Run Java Program') {
+            steps {
+                bat ''' javac DuplicateString.java
+                java DuplicateString
+                '''
+                echo "Executes Successfully"
+            }
+        }
+    }
+}
+
+
+// Q6 Create a pipeline that builds and tests Ruby project
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build and Run Ruby Unit Test') {
+            steps {
+                bat ''' ruby Array_Operation_UnitTest.rb
+                '''
+                echo "Unit Test Executed Successfully"
+            }
+        }
+    }
+}
+
+// Q6 B
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'jenkins-ruby', url:'${git_url}'
+                echo 'Git Cloned'
+            }
+        }
+        stage('Ruby Unit Test 2') {
+            steps {
+                bat 'ruby Array_Operation_UnitTest.rb'
+                echo 'Unit Test Successful'
+            }
+        }
+    }
+}
+
+
+
+// Q7 Create a pipeline that builds and tests Ruby project
+
+pipeline {
+    agent any
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'jenkins-ruby-1', credentialsId: '48645ee2-e0f2-488e-8ebd-aa71da848b08', url: 'https://github.com/infuse-training-jan-2023/Practice_ANIS.git'
+                echo 'Git Clone Success'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat 'ruby SerialAverage_UnitTest.rb'
+                echo 'Build Successful'
+            }
+        }
+        stage('Merge') {
+            steps {
+                bat '''
+                git config --global user.email "anisofficial0208@gmail.com"
+                git config --global user.name "AnisShaikh10"
+                git switch jenkins-ruby
+                git merge jenkins-ruby-1
+                git push -u origin jenkins-ruby
+                '''
+                echo 'Merge Successful'
+            }
+        }
+    }
+}
+
+
+
+// Q8 Groovy Script to fetch the list of todos
+
+import groovy.json.JsonSlurper
+pipeline {
+    agent any
+    stages {
+        stage('Hello') {
+            steps {
+                script
+                {
+                    def todosUrl = new URL('https://jsonplaceholder.typicode.com/todos')
+                    def jsonSlurper = new JsonSlurper()
+                    def todos = jsonSlurper.parseText(todosUrl.text)
+                    todos.each
+                    {
+                        if(it.completed == false)
+                        {
+                            println it
+                        }
+                    }
+                }
+                echo 'Hello World'
+
+            }
+        }
+    }
+}
+
