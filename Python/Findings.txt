@@ -1,0 +1,22 @@
+Difference Between Inheritance and Composition
+-The difference between inheritance and composition is that composition is a way of combining multiple objects into a single object
+
+List Append
+- Add the element to the List
+
+List Extend
+- Combines One list to another
+
+
+Tryng to Pop elements more then its size
+- pop index out of range
+
+Package in python
+- Package is a file directory structure that defines single Python application and in Package there are subpackges.
+- SubPackage contains modules and each modules may have one or more functions.
+
+How to Write Package
+- we create a special file called "__init__.py" which initalize the Package.
+- In the init file we can specify which function needs to be imported from which modules.
+- After building Package we dont need to explicitly mention import which function as it will be dfined in package.
+- from the package we can call desired function.
