@@ -1,8 +1,2 @@
-Q1\__pycache__
-Q1\.coverage
-Q2\__pycache__
-Q2\.coverage
-Q3\__pycache__
-Q3\.coverage
-Q4\__pycache__
-Q4\.coverage
+*\__pycache__
+*\.coverage
