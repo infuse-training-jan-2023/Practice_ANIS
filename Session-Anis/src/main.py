@@ -42,10 +42,9 @@ def add_item():
         return Response("{'error': 'Error adding the item'}", mimetype='application/json', status=500)
     return Response(json.dumps(add_items), mimetype='application/json', status = 201)
 
-@app.route('/deleteitem', methods = ['POST'])
-def delete_item():
+@app.route('/deleteitem/<int:id>', methods = ['POST'])
+def delete_item(id):
     request_data = request.get_json()
-    id = request_data["id"]
     delete_item = item_actions.delete_item(id)
     if delete_item == {}:
         return Response("{'error': 'Error deleting the item'}", mimetype='application/json', status=500)
