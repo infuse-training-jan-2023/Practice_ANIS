@@ -8,8 +8,8 @@ class GetTableHeader
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://cosmocode.io/automation-practice-webtable/")
+  def open_site(url)
+    driver.get(url)
   end
 
   def get_table_headers()
@@ -24,6 +24,7 @@ class GetTableHeader
 end
 
 driver_path = "driver//chromedriver.exe"
+url = "https://cosmocode.io/automation-practice-webtable/"
 click_action = GetTableHeader.new(driver_path)
-click_action.open_site()
+click_action.open_site(url)
 click_action.get_table_headers()

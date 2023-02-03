@@ -8,27 +8,26 @@ class GetTableColumn
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://computer-database.gatling.io/computers")
+  def open_site(url)
+    driver.get(url)
   end
 
-  def get_table_column()
-    count_td = driver.find_elements(:xpath, "//table[contains(@class,'comp')]/tbody/tr[2]//td").length
-    value = driver.find_element(:xpath, "//table[contains(@class,'comp')]/tbody/tr[2]//td[1]").text
-    puts "Column " + value
-
+  def get_table_column(row)
+    table = driver.find_element(:class, 'zebra-striped')
+    tbody = table.find_element(:tag_name, 'tbody')
+    tr = tbody.find_elements(:tag_name, 'tr')
+    td = tr[row].find_elements(:tag_name, 'td')
+    value = []
+    td.each{ |td|
+      value.push(td.text)
+    }
+    puts value
     driver.close()
-
-    # for i in 1..count_td
-    #   convt_i = i.to_s
-    #   value = driver.find_element(:xpath, "//table[contains(@class,'comp')]/tbody/tr[2]//td["+convt_i+"]").text
-    #   puts "Columns" + convt_i + ": " + value
-    # end
-    # driver.close()
   end
 end
 
 driver_path = "driver//chromedriver.exe"
+url = "https://computer-database.gatling.io/computers"
 click_action = GetTableColumn.new(driver_path)
-click_action.open_site()
-click_action.get_table_column()
+click_action.open_site(url)
+click_action.get_table_column(2)

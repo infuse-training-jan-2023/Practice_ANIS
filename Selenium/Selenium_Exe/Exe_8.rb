@@ -9,8 +9,8 @@ class MoveSliders
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://www.globalsqa.com/demo-site/sliders/#Steps")
+  def open_site(url)
+    driver.get(url)
     driver.manage.window().maximize()
     horizontal_slider()
     driver.close();
@@ -37,8 +37,9 @@ class MoveSliders
 end
 
 driver_path = "driver//chromedriver.exe"
+url = "https://www.globalsqa.com/demo-site/sliders/#Steps"
 click_action = MoveSliders.new(driver_path)
-click_action.open_site()
+click_action.open_site(url)
 
 
 

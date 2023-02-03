@@ -9,32 +9,28 @@ class DropDownList
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://letcode.in/forms")
+  def open_site(url)
+    driver.get(url)
     driver.manage().window().maximize();
     dropdown_list()
     driver.close();
   end
 
   def dropdown_list()
-    div2 = driver.find_element(:class, 'select')
-    select_tag = div2.find_element(:tag_name, "select")
-    options = select_tag.find_elements(:tag_name, "option")
-    puts options.length
-    options.each do |option|
-      puts option.text
-      if option.text == 'India (+91)'
-        option.click
-      end
+    select_element = driver.find_element(:tag_name, "select")
+    select = Selenium::WebDriver::Support::Select.new(select_element)
+    options = select_element.find_elements(:tag_name, "option")
+    options.each do |all_options|
+      puts all_options.text
     end
+    sleep(5)
 
   end
 
 end
 
 driver_path = "driver//chromedriver.exe"
-
+url = "https://letcode.in/forms"
 click_action = DropDownList.new(driver_path)
-
-click_action.open_site()
+click_action.open_site(url)
 

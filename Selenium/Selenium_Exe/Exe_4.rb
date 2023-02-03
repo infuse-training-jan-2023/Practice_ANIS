@@ -9,13 +9,17 @@ class Click_CheckBox_RadioButton
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://demo.automationtesting.in/Register.html")
+  def open_site(url)
+    driver.get(url)
   end
 
   def click_radio()
-    radio_option = driver.find_element(:css, "input[value='Male']")
-    radio_option.click
+    radio_option = driver.find_elements(:name, "radiooptions")
+    radio_option.each do |values|
+      if values.attribute("value") == "FeMale"
+        values.click
+      end
+    end
     sleep(5)
     puts "Radio Clicked"
   end
@@ -32,9 +36,10 @@ class Click_CheckBox_RadioButton
 end
 
 driver_path = "driver//chromedriver.exe"
+url = "https://demo.automationtesting.in/Register.html"
 click_action = Click_CheckBox_RadioButton.new(driver_path)
-click_action.open_site()
+click_action.open_site(url)
 click_action.click_radio()
-click_action.click_checkbox()
+# click_action.click_checkbox()
 
 

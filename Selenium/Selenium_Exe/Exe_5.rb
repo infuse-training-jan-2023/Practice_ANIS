@@ -9,8 +9,8 @@ class SearchEngine
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://www.google.com/")
+  def open_site(url)
+    driver.get(url)
   end
 
   def search()
@@ -23,8 +23,9 @@ class SearchEngine
 end
 
 driver_path = "driver//chromedriver.exe"
+url = "https://www.google.com/"
 click_action = SearchEngine.new(driver_path)
-click_action.open_site()
+click_action.open_site(url)
 click_action.search()
 
 

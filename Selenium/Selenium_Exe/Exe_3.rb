@@ -9,20 +9,20 @@ class ClickButton
     @driver = Selenium::WebDriver.for :chrome
   end
 
-  def open_site()
-    driver.get("https://goaonline.gov.in")
+  def open_site(url)
+    driver.get(url)
   end
 
   def click_button()
     popup_close = driver.find_element(:class, "close-modalSplash")
     popup_close.click
     driver.find_element(:id, "hlkLogin").click
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     driver.close();
   end
 end
 
 driver_path = "driver//chromedriver.exe"
+url = "https://goaonline.gov.in"
 click_action = ClickButton.new(driver_path)
-click_action.open_site()
+click_action.open_site(url)
 click_action.click_button()
