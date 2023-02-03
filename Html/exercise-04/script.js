@@ -10,8 +10,10 @@ const user = {
 */
 
 const printUserProfile = ({ name, designation, company, hobbies } = user) => {
+
+    let hobb = hobbies.map((hobby)=>{return hobby})
     // Piyush Sharma is a Senior Software Engineer at Infuse Consulting. He likes Reading, Listening to music and Collecting stamps
-    console.log(name + " is a " +  designation + " at " + company + ". He likes " + hobbies[0] + "," + hobbies[1] + " and " + hobbies[2]);
+    console.log(name + " is a " +  designation + " at " + company + `. He likes ${hobb}`);
 }
 
 printUserProfile()

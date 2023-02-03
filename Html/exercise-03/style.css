@@ -75,13 +75,21 @@ nav
   font-size: large;
 }
 
-li:hover
+.um-navitems__main > li:hover, .um-navitems__secondary>li:hover
+{
+  background-color: rgb(133, 173, 236);
+  color: rgb(13, 108, 168);
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* li:hover
 {
   background-color: rgb(2, 51, 129);
   color: rgb(77, 214, 245);
   opacity: 0.3;
 
-}
+} */
 
 .um-navitems__secondary
 {
@@ -168,11 +176,10 @@ textarea
   padding-right: 25px;
 }
 
-/* .bi-pencil-square
+.bi-pencil-square
 {
-  background-color: rgb(19, 106, 176);
-  color: white;
-} */
+  cursor: pointer;
+}
 
 .bi-x
 {
@@ -201,6 +208,11 @@ div.test-flowchart span
 div.options > i
 {
   color: rgb(126, 122, 122);
+}
+
+.options:hover
+{
+  cursor: pointer;
 }
 
 .test-designer
