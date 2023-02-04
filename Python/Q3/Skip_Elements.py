@@ -10,8 +10,8 @@ class SkipElement:
         if( not type(skip_no) == int or skip_no > len(self.list) or skip_no <= 0):
             raise MyException("invalid skip_no")
         else:
-            for i in self.list:
-                return self.list[skip_no:len(self.list)]
+            result = [self.list[i] for i in range(skip_no, len(self.list))]
+            return result
 
 
 sports = ['Cricket', 'TT', 'Football', 'Hockey']

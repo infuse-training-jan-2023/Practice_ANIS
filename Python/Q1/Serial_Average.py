@@ -1,15 +1,10 @@
 import re
 
 class SerialAverage:
-
-    def __init__(self, input :str) -> str:
-        self.input = input
-    def compute_average(self):
-        regex = re.findall("^\\d{3}-\\d{2}.\\d{2}-\\d{2}.\\d{2}", self.input)
-        print(regex)
-
+    def compute_average(self, input):
+        regex = re.findall("^\\d{3}-\\d{2}.\\d{2}-\\d{2}.\\d{2}", input)
         if (regex):
-            split_string = self.input.split('-')
+            split_string = input.split('-')
             average = (float(split_string[1]) + float(split_string[2])) / 2
             result = ''
             convert_avg_str = str(average)
@@ -28,6 +23,6 @@ class SerialAverage:
             return "Invalid Input"
 
 serial_number = "002-10.00-10.00"
-serial_avg = SerialAverage(serial_number)
-print("Average is: " + serial_avg.compute_average())
+serial_avg = SerialAverage()
+print("Average is: " + serial_avg.compute_average(serial_number))
 

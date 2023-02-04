@@ -1,4 +1,4 @@
-from ArrayOperation import ArrayOperations
+from Array_Operation import ArrayOperations
 import pytest
 array = [9, 5, 1, 2, 3, 4, 0, -1]
 
