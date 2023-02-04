@@ -5,19 +5,18 @@ class SeleniumFrameWork
   attr_accessor :driver
 
   def initialize()
+    chrome_driver()
+  end
+
+  def chrome_driver()
     options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--disable-popup-blocking')
-    options.add_argument('--disable-translate')
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-extensions')
-    options.add_argument('window-size=1920,1080')
-    Selenium::WebDriver::Chrome::Service.driver_path = "/usr/local/bin/chromedriver"
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-dev-shm-usage")
+    Selenium::WebDriver::Chrome::Service.driver_path = "/opt/chromedriver-109.0.5414.74/chromedriver"
     @driver = Selenium::WebDriver.for :chrome, options: options
-    # Selenium::WebDriver::Chrome::Service.driver_path = "driver/chromedriver.exe"
-    # @driver = Selenium::WebDriver.for :chrome
   end
 
   def open_site(url)
@@ -32,11 +31,7 @@ class SeleniumFrameWork
 
   def verify(actual_val, expected_val)
     find = driver.find_element(actual_val)
-    if find.text.include?(expected_val)
-      return true
-    else
-      return false
-    end
+    return find.text.include?(expected_val)
   end
 
   def close_site()
@@ -51,6 +46,14 @@ class SeleniumFrameWork
     rescue => exception
       puts exception.message
       return "Sleep Time not Invoked"
+    end
+  end
+
+  def explicit_wait(sec)
+    if sec.is_a? Integer
+      return Selenium::WebDriver::Wait.new(:timeout => sec) # seconds
+    else
+      return nil
     end
   end
 
@@ -84,6 +87,10 @@ class SeleniumFrameWork
     end
   end
 
+  def click_element(element)
+    element.click
+  end
+
   def click_btn(element, value)
     begin
       click_evnt = findelement(element, value)
@@ -94,6 +101,11 @@ class SeleniumFrameWork
       puts exception.message
       return "Button not Clicked"
     end
+  end
+
+  def verify(actual_val, expected_val)
+    find = driver.find_element(actual_val)
+    return find.text.include?(expected_val)
   end
 
   def send_text(element, value, text)
