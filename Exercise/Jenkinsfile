@@ -38,6 +38,8 @@ pipeline {
             }
         }
     }
+
+    H 9 * * 1-5
 }
 
 
@@ -47,7 +49,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Build and Run Java Program') {
+        stage('Build Java Program') {
+            steps {
+                bat ''' javac DuplicateString.java
+                java DuplicateString
+                '''
+                echo "Executes Successfully"
+            }
+        }
+
+        stage('Run Java Program') {
             steps {
                 bat ''' javac DuplicateString.java
                 java DuplicateString
