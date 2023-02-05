@@ -1,9 +1,9 @@
-from item_repository import ItemRepositiory
+from item_repository import ItemRepository
 
 
 class ItemActions:
 	def __init__(self) -> None:
-		self.item_repo = ItemRepositiory()
+		self.item_repo = ItemRepository()
 
 	def get_all_items(self):
 		try:
@@ -52,7 +52,7 @@ class ItemActions:
 	def delete_item(self, id):
 		try:
 			items = self.item_repo.delete_item(id)
-			res = ["Item Deleted Successfully"]
+			res = {"msg": "Item Deleted Successfully"}
 			return res
 		except Exception as e:
 			print(e)
@@ -61,7 +61,7 @@ class ItemActions:
 	def update_item(self, data, id):
 		try:
 			items = self.item_repo.update_item(data, id)
-			res = ["Item Updated Successfully"]
+			res = {"msg": "Item Updated Successfully"}
 			return res
 		except Exception as e:
 			print(e)

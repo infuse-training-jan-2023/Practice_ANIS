@@ -16,5 +16,9 @@ cursor.execute("INSERT INTO items (item, status,reminder) VALUES (?,?,?)",
     ('Complete Assignments', 'In Progress', True)
 )
 
+
+cursor.execute("INSERT INTO users (name, address,mobile) VALUES (?,?,?)",
+    ('test', 'TestAddress', 1234)
+)
 connection.commit()
 connection.close()

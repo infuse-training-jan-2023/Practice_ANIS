@@ -16,23 +16,19 @@ api = TodoAPI()
 def welcome():
     return "Hello world"
 
-@app.route('/getitems', methods = ['GET'])
+@app.route('/items', methods = ['GET'])
 def get_all_items():
     items = item_actions.get_all_items()
     print(items)
     return Response(json.dumps(items), mimetype='application/json', status=200)
 
-@app.route('/getitem/<int:id>', methods = ['GET'])
+@app.route('/items/<int:id>', methods = ['GET'])
 def get_item(id):
     items = item_actions.get_item(id)
     print(items)
     return Response(json.dumps(items), mimetype='application/json', status=200)
 
-@app.route('/square_of_num/<int:num>', methods = ['GET'])
-def square_of_num(num):
-    return str(num * num)
-
-@app.route('/additem', methods = ['POST'])
+@app.route('/items', methods = ['POST'])
 def add_item():
     request_data = request.get_json()
     items = request_data["item"]
@@ -42,14 +38,14 @@ def add_item():
         return Response("{'error': 'Error adding the item'}", mimetype='application/json', status=500)
     return Response(json.dumps(add_items), mimetype='application/json', status = 201)
 
-@app.route('/deleteitem/<int:id>', methods = ['DELETE'])
+@app.route('/items/<int:id>', methods = ['DELETE'])
 def delete_item(id):
     delete_item = item_actions.delete_item(id)
     if delete_item == {}:
         return Response("{'error': 'Error deleting the item'}", mimetype='application/json', status=500)
     return Response(json.dumps(delete_item), mimetype='application/json', status = 201)
 
-@app.route('/updateitem/<int:id>', methods = ['PUT'])
+@app.route('/items/<int:id>', methods = ['PUT'])
 def update_item(id):
     request_data = request.get_json()
     # item = request_data["item"]
@@ -61,7 +57,7 @@ def update_item(id):
         return Response("{'error': 'Error updating the item'}", mimetype='application/json', status=500)
     return Response(json.dumps(update_item), mimetype='application/json', status = 201)
 
-@app.route('/adduser', methods = ['POST'])
+@app.route('/user', methods = ['POST'])
 def add_user():
     request_data = request.get_json()
     name = request_data["name"]
@@ -99,6 +95,10 @@ def save_items():
     items = item_actions.save_data_to_file()
     print(items)
     return Response(json.dumps(items), mimetype='application/json', status=200)
+
+@app.route('/square_of_num/<int:num>', methods = ['GET'])
+def square_of_num(num):
+    return str(num * num)
 
 
 if __name__ == '__main__':

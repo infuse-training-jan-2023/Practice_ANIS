@@ -1,5 +1,7 @@
-*/__pycache__
-webenv
 todo.db
-Email_Verify
+__pycache__
+Api
+db
+Email_verify
 Validate_Password
+webenv

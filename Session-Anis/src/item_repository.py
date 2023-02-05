@@ -1,18 +1,18 @@
 import sqlite3
 import csv
 
-class ItemRepositiory:
+class ItemRepository:
 	NOT_STARTED = "Not Started"
 	DBPATH = './todo.db'
 
 	@staticmethod
 	def connect_db():
-		return sqlite3.connect(ItemRepositiory.DBPATH)
+		return sqlite3.connect(ItemRepository.DBPATH)
 
 	@staticmethod
 	def get_all_items():
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
 			rows = c.execute('select * from items')
 			print("Rows Value: " ,rows)
@@ -21,11 +21,11 @@ class ItemRepositiory:
 			raise Exception('Error: ',e)
 
 	@staticmethod
-	def get_item(item):
+	def get_item(id):
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
-			rows = c.execute('select * from items where id=?',(item,))
+			rows = c.execute('select * from items where id=?',(id,))
 			print("Rows Value: " ,rows)
 			return rows
 		except Exception as e:
@@ -34,15 +34,15 @@ class ItemRepositiory:
 	@staticmethod
 	def add_item(item, reminder):
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
 			insert_cursor = c.execute('insert into items (item, status,reminder) VALUES (?,?,?)',
-			(item, ItemRepositiory.NOT_STARTED, reminder))
+			(item, ItemRepository.NOT_STARTED, reminder))
 			conn.commit()
 			return{
 				'id': insert_cursor.lastrowid,
 				'item': item,
-				'status': ItemRepositiory.NOT_STARTED,
+				'status': ItemRepository.NOT_STARTED,
 				'reminder': reminder
 			}
 		except Exception as e:
@@ -51,7 +51,7 @@ class ItemRepositiory:
 	@staticmethod
 	def delete_item(id):
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
 			fetch_status = c.execute('select item from items where id=?', (id, ))
 			if fetch_status.fetchone()[0] == 0:
@@ -68,7 +68,7 @@ class ItemRepositiory:
 		print(id)
 		print(data)
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
 			fetch_status = c.execute('select id from items where id=?', (id, ))
 			if fetch_status.fetchone()[0] == '':
@@ -84,7 +84,7 @@ class ItemRepositiory:
 	@staticmethod
 	def add_user(name, address, mob):
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
 			insert_cursor = c.execute('insert into Users (name, address, mobile) VALUES (?,?,?)',
 			(name, address, mob))
@@ -101,7 +101,7 @@ class ItemRepositiory:
 	@staticmethod
 	def save_data_to_file():
 		try:
-			conn = ItemRepositiory.connect_db()
+			conn = ItemRepository.connect_db()
 			c = conn.cursor()
 			rows = c.execute('select * from items')
 			print("Rows Value: " ,rows)
