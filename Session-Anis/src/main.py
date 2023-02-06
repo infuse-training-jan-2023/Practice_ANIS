@@ -1,16 +1,16 @@
 from flask import Flask, Response, request
 import json
 from item_action import ItemActions
-from Email_Validate import Emailvalidate
-from Password_Validate import Passwordvalidate
-from api_request import TodoAPI
+from Email_Validate import validate_email
+from Password_Validate import validate_password
+from api_request import fetch_todo
 
 
 app = Flask(__name__)
 item_actions = ItemActions()
-validate = Emailvalidate()
-passvalidate = Passwordvalidate()
-api = TodoAPI()
+# validate = validate_email()
+# passvalidate = Passwordvalidate()
+# api = TodoAPI()
 
 @app.route('/', methods = ['GET'])
 def welcome():
@@ -69,24 +69,24 @@ def add_user():
     return Response(json.dumps(add_user), mimetype='application/json', status = 201)
 
 @app.route('/validate_email', methods = ['POST'])
-def validate_email():
+def check_email():
     request_data = request.get_json()
     email = request_data["email"]
-    items = validate.validate_email(email)
+    items = validate_email(email)
     print(items)
     return Response(json.dumps(items), mimetype='application/json', status=200)
 
 @app.route('/validate_pass', methods = ['POST'])
-def validate_pass():
+def check_pass():
     request_data = request.get_json()
     passwd = request_data["pass"]
-    items = passvalidate.validate_password(passwd)
+    items = validate_password(passwd)
     print(items)
     return Response(json.dumps(items), mimetype='application/json', status=200)
 
 @app.route('/api/<int:num>', methods=(['GET']))
 def fetch_api(num):
-    items = api.fetch_todo(num)
+    items = fetch_todo(num)
     print(items)
     return Response(json.dumps(items), mimetype='application/json', status=200)
 

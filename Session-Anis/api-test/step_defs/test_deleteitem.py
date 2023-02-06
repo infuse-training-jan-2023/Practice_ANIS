@@ -4,7 +4,7 @@ import requests
 
 scenarios('../features/delete_item.feature')
 
-delete_item_url = "http://127.0.0.1:5000/items/28"
+delete_item_url = "http://127.0.0.1:5000/items/32"
 
 @when('I delete an item')
 def delete_item():
