@@ -1,124 +1,83 @@
 import sqlite3
-import csv
 
 class ItemRepository:
-	NOT_STARTED = "Not Started"
-	DBPATH = './todo.db'
+    def __init__(self) -> None:
+        self.db_path = './todo.db'
+        self.connection = None
+        self.NOT_STARTED = "Not Started"
 
-	@staticmethod
-	def connect_db():
-		return sqlite3.connect(ItemRepository.DBPATH)
+    def connect_db(self):
+        if self.connection is None:
+            self.connection =  sqlite3.connect(self.db_path, check_same_thread=False)
 
-	@staticmethod
-	def get_all_items():
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			rows = c.execute('select * from items')
-			print("Rows Value: " ,rows)
-			return rows
-		except Exception as e:
-			raise Exception('Error: ',e)
+    def get_all_items(self):
+        try:
+            self.connect_db()
+            cursor = self.connection.cursor()
+            rows = cursor.execute('select * from items')
+            return rows
+        except Exception as e:
+            raise Exception('Error: ',e)
 
-	@staticmethod
-	def get_item(id):
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			rows = c.execute('select * from items where id=?',(id,))
-			print("Rows Value: " ,rows)
-			return rows
-		except Exception as e:
-			raise Exception('Error: ',e)
+    def get_item(self, id):
+        try:
+            self.connect_db()
+            cursor = self.connection.cursor()
+            rows = cursor.execute('select * from items where id=?',(id,))
+            return rows
+        except Exception as e:
+            raise Exception('Error: ',e)
 
-	@staticmethod
-	def add_item(item, reminder):
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			insert_cursor = c.execute('insert into items (item, status,reminder) VALUES (?,?,?)',
-			(item, ItemRepository.NOT_STARTED, reminder))
-			conn.commit()
-			return{
-				'id': insert_cursor.lastrowid,
-				'item': item,
-				'status': ItemRepository.NOT_STARTED,
-				'reminder': reminder
-			}
-		except Exception as e:
-			raise Exception('Error: ', e)
+    def add_item(self, item, reminder):
+        try:
+            self.connect_db()
+            cursor = self.connection.cursor()
+            insert_cursor = cursor.execute('insert into items (item, status,reminder) VALUES (?,?,?)',
+            (item, self.NOT_STARTED, reminder))
+            self.connection.commit()
+            return{
+                'id': insert_cursor.lastrowid,
+                'item': item,
+                'status': self.NOT_STARTED,
+                'reminder': reminder
+            }
+        except Exception as e:
+            raise Exception('Error: ', e)
 
-	@staticmethod
-	def delete_item(id):
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			fetch_status = c.execute('select item from items where id=?', (id, ))
-			if fetch_status.fetchone()[0] == 0:
-				raise TypeError("Item Dosen't Exist")
-			rows = c.execute('DELETE FROM items WHERE id=?',(id,))
-			conn.commit()
-			print("Rows value:",rows)
-			return rows
-		except Exception as e:
-			raise Exception('Error: ', e)
+    def delete_item(self, id):
+        try:
+            self.connect_db()
+            cursor = self.connection.cursor()
+            fetch_status = self.get_item(id)
+            if fetch_status.fetchone()[0] == 0:
+                raise TypeError("Item Dosen't Exist")
+            rows = cursor.execute('DELETE FROM items WHERE id=?',(id,))
+            self.connection.commit()
+            return rows
+        except Exception as e:
+            raise Exception('Error: ', e)
 
-	@staticmethod
-	def update_item(data, id):
-		print(id)
-		print(data)
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			fetch_status = c.execute('select id from items where id=?', (id, ))
-			if fetch_status.fetchone()[0] == '':
-				raise TypeError("Item Dosen't Exist")
-			for key, value in data.items():
-				rows = c.execute(f'UPDATE items SET {key}=? WHERE id=?', (value, id ))
-			conn.commit()
-			print("Rows value:",rows)
-			return rows
-		except Exception as e:
-			raise Exception('Error: ', e)
+    def update_item(self,data, id):
+        try:
+            self.connect_db()
+            cursor = self.connection.cursor()
+            fetch_status = self.get_item(id)
+            if fetch_status.fetchone()[0] == '':
+                raise TypeError("Item Dosen't Exist")
+            for key, value in data.items():
+                rows = cursor.execute(f'UPDATE items SET {key}=? WHERE id=?', (value, id ))
+            self.connection.commit()
+            return rows
+        except Exception as e:
+            raise Exception('Error: ', e)
 
-	@staticmethod
-	def add_user(name, address, mob):
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			insert_cursor = c.execute('insert into Users (name, address, mobile) VALUES (?,?,?)',
-			(name, address, mob))
-			conn.commit()
-			return{
-				'id': insert_cursor.lastrowid,
-				'name': name,
-				'address': address,
-				'mobile': mob
-			}
-		except Exception as e:
-			raise Exception('Error: ', e)
-
-	@staticmethod
-	def save_data_to_file():
-		try:
-			conn = ItemRepository.connect_db()
-			c = conn.cursor()
-			rows = c.execute('select * from items')
-			print("Rows Value: " ,rows)
-			fields = ['ID', 'ITEM', 'STATUS', 'REMINDER']
-			# writing to csv file
-			with open('ItemsRecords.csv', 'w') as csvfile:
-				# creating a csv writer object
-				csvwriter = csv.writer(csvfile)
-				# writing the fields
-				csvwriter.writerow(fields)
-
-				# writing the data rows
-				csvwriter.writerows(rows)
-
-			return rows
-		except Exception as e:
-			raise Exception('Error: ',e)
+    def save_data_to_file(self):
+        try:
+            self.connect_db()
+            rows = self.get_all_items()
+            return rows
+        except Exception as e:
+            raise Exception('Error: ',e)
 
 
 

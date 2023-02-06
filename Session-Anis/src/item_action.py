@@ -1,5 +1,5 @@
 from item_repository import ItemRepository
-
+import csv
 
 class ItemActions:
 	def __init__(self) -> None:
@@ -78,17 +78,17 @@ class ItemActions:
 	def save_data_to_file(self):
 		try:
 			items = self.item_repo.save_data_to_file()
-			res = []
-			for item in items:
-				res.append(
-					{
-						'id': item[0],
-						'item': item[1],
-						'status': item[2],
-						'reminder': item[3]
-					}
-				)
-			return res
+			fields = ['ID', 'ITEM', 'STATUS', 'REMINDER']
+			# writing to csv file
+			with open('ItemsRecords.csv', 'w') as csvfile:
+				# creating a csv writer object
+				csvwriter = csv.writer(csvfile)
+				# writing the fields
+				csvwriter.writerow(fields)
+
+				# writing the data rows
+				csvwriter.writerows(items)
+			return {"msg": "File Created successfully"}
 		except Exception as e:
 			print(e)
 			return {}
