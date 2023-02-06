@@ -1,24 +1,9 @@
 // Q2 Window Bash Script
-pipeline {
-    agent any
+mkdir C:\\Users\\AS\\Desktop\\Infuse\\Workspace\\Jenkins\\Test
 
-    stages {
-        stage('Create Folder') {
-            steps {
-                bat '''mkdir C:\\Users\\AS\\Desktop\\Infuse\\Workspace\\Jenkins\\Test'''
-                echo 'Folder Created'
-            }
-        }
-        stage('Create File') {
-            steps {
-                bat '''cd C:\\Users\\AS\\Desktop\\Infuse\\Workspace\\Jenkins\\Test
-                echo test content>testfile.txt
-                '''
-                echo 'file Created'
-            }
-        }
-    }
-}
+cd C:\\Users\\AS\\Desktop\\Infuse\\Workspace\\Jenkins\\Test
+
+echo test content>testfile.txt
 
 
 // Q3 Build and Test Two Stages
