@@ -1,5 +1,7 @@
 require 'json'
 require 'pp'
+test = ENV["version"]
+puts test
 filepath = ARGV[0]
 puts filepath
 file = File.open(filepath)
