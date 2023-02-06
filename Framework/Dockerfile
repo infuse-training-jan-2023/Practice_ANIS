@@ -1,6 +1,8 @@
 FROM ruby:3.1 as base
 WORKDIR /src/
 COPY . .
+ADD Gemfile .
+RUN bundle install --gemfile Gemfile
 # Download Google Chrome
 RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
     mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION && \
@@ -17,7 +19,7 @@ RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-ke
     apt-get -yqq install google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-RUN gem install selenium-webdriver
+# RUN gem install selenium-webdriver
 
 FROM base as test
 CMD ["ruby", "Test_Framework_UnitTest.rb"]

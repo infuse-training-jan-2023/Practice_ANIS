@@ -1,13 +1,6 @@
 require 'selenium-webdriver'
 
-class SeleniumFrameWork
-
-  attr_accessor :driver
-
-  def initialize()
-    chrome_driver()
-  end
-
+class SeleniumWebDriver
   def chrome_driver()
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument("--headless")
@@ -18,6 +11,17 @@ class SeleniumFrameWork
     Selenium::WebDriver::Chrome::Service.driver_path = "/opt/chromedriver-109.0.5414.74/chromedriver"
     @driver = Selenium::WebDriver.for :chrome, options: options
   end
+end
+
+class SeleniumFrameWork
+
+  attr_accessor :driver
+
+  def initialize(driver_new)
+    @driver =  driver_new
+  end
+
+
 
   def open_site(url)
     begin
