@@ -1,0 +1,61 @@
+
+form {
+  width: 50%; /* set the width of the form */
+  margin: 0 auto; /* center the form horizontally */
+  padding: 20px; /* add some padding to the form */
+  border: 1px solid #ccc; /* add a border to the form */
+  border-radius: 10px; /* add rounded corners to the form */
+}
+
+label {
+  font-weight: bold; /* make the labels bold */
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
+  width: 100%; /* make the input fields take up the full width of the form */
+  padding: 12px 20px; /* add some padding to the input fields */
+  margin: 8px 0; /* add some margin to the input fields */
+  box-sizing: border-box; /* include the padding and border in the total width of the input fields */
+  border: 1px solid #ccc; /* add a border to the input fields */
+  border-radius: 10px; /* add rounded corners to the input fields */
+}
+
+select {
+  width: 100%; /* make the select drop-down take up the full width of the form */
+  padding: 12px 20px; /* add some padding to the select drop-down */
+  margin: 8px 0; /* add some margin to the select drop-down */
+  box-sizing: border-box; /* include the padding and border in the total width of the select drop-down */
+  border: 1px solid #ccc; /* add a border to the select drop-down */
+  border-radius: 10px; /* add rounded corners to the select drop-down */
+}
+
+textarea {
+  width: 100%; /* make the textarea take up the full width of the form */
+  height: 150px; /* set the height of the textarea */
+  padding: 12px 20px; /* add some padding to the textarea */
+  box-sizing: border-box; /* include the padding and border in the total width of the textarea */
+  border: 1px solid #ccc; /* add a border to the textarea */
+  border-radius: 10px; /* add rounded corners to the textarea */
+  resize: none; /* prevent the textarea from being resized */
+}
+
+input[type="submit"] {
+  width: 100%; /* make the submit button take up the full width of the form */
+  background-color: #4CAF50; /* set the background color of the submit button */
+  color: white; /* set the text color of the submit button */
+  padding: 14px 20px; /* add some padding to the submit button */
+  margin: 8px 0; /* add some margin to the submit button */
+  border: none; /* remove the border from the submit button */
+  border-radius: 10px; /* add rounded corners to the submit button */
+  cursor: pointer; /* change the cursor to a hand when hovering over the submit button */
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049; /* change the background color of the submit button when hovering over it */
+}
+
+h1 {
+    text-align: center; /* center the text */
+    color: #4CAF50; /* set the text color */
+    margin-bottom: 20px; /* add some margin to the bottom of the header */
+}
