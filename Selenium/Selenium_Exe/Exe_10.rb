@@ -12,16 +12,18 @@ class GetTableColumn
     driver.get(url)
   end
 
-  def get_table_column(row)
+  def get_table_column(cols)
     table = driver.find_element(:class, 'zebra-striped')
     tbody = table.find_element(:tag_name, 'tbody')
     tr = tbody.find_elements(:tag_name, 'tr')
-    td = tr[row].find_elements(:tag_name, 'td')
-    value = []
-    td.each{ |td|
-      value.push(td.text)
+    td = tr[0].find_elements(:tag_name, 'td')
+    thead = table.find_element(:tag_name, 'thead')
+    th = thead.find_elements(:tag_name, 'th')
+    puts th[cols].text
+    tr.each{|row|
+      puts row.find_elements(:tag_name, "td")[cols].text
     }
-    puts value
+
     driver.close()
   end
 end
@@ -30,4 +32,4 @@ driver_path = "driver//chromedriver.exe"
 url = "https://computer-database.gatling.io/computers"
 click_action = GetTableColumn.new(driver_path)
 click_action.open_site(url)
-click_action.get_table_column(2)
+click_action.get_table_column(0)

@@ -28,7 +28,8 @@ class MoveSliders
     begin
       slider = wait.until{driver.find_element(:tag_name,'span')}
       driver.action.key_down(:control).perform
-      driver.action.drag_and_drop_by(slider, 100, 150).perform
+      # driver.action.drag_and_drop_by(slider, 100, 150).perform
+      driver.action.send_keys(slider, :arrow_left).perform
       puts "drag success"
     rescue => exception
       puts exception
