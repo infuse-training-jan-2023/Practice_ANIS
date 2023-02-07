@@ -1,7 +1,7 @@
 FROM ruby:latest
 WORKDIR /src/
-ENV file="Read_file.json"
-ENV version = ["GEM_HOME"]
+ENV num1=8
+ENV num2=10
 RUN gem install json
 RUN gem install pp
 COPY . .

@@ -50,7 +50,6 @@ end
 filename_location = "Read_ile.json"
 # filename_location = "Content_file.txt"
 process_json = ProcessJsonData.new()
-
 puts process_json.process_json_file(filename_location)
 
 
