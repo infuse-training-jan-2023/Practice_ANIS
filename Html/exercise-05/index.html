@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Cards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Pokemon Cards</h1>
+    <label for="Sort By">Sort By: </label>
+    <select name="sort" id="sort" onchange="sortBy(this.value)">
+        <option value=0>Default</option>
+        <option value=1>Weight</option>
+        <option value=2>Base_Exp</option>
+    </select>
+
+    <input type="text" id="search-bar" placeholder="Search for a Pokémon">
+
+    <div id="main">
+        <!-- <div class="card">
+            <img src="#" alt="Avatar" style="width:100%">
+            <h1>Tailored Jeans</h1>
+            <p><button>Know More</button></p>
+        </div> -->
+    </div>
+
+    <div class="side-panel" id="side-panel">
+        <iframe id="iframe" src="" frameborder="1"
+            srcdoc=
+            "
+                <p id='species'>Species: </p>
+
+                Stats
+                <p id='attack'>Attack: </p>
+                <p id='defence'>Defense: </p>
+                <p id='spattack'>Special Attack: </p>
+                <p id='speed'>Speed: </p>
+
+                <p id='moves0'>Moves0: </p>
+                <p id='moves1'>Moves1: </p>
+            ">
+            </iframe>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
