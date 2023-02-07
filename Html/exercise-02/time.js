@@ -1,7 +1,7 @@
 function displaytime()
 {
 
-    let today = new Date();
+    const today = new Date();
     let h = today.getHours();
     let m = today.getMinutes();
     let s = today.getSeconds();
@@ -24,11 +24,11 @@ function displaytime()
 
 function toogleDarkMode()
 {
-    let element = document.body;
+    const element = document.body;
     element.classList.toggle("dark-mode");
 }
 
 document.getElementById("dc").innerHTML= "hello";
-let text = document.getElementById("dc").innerHTML;
+const text = document.getElementById("dc").innerHTML;
 
 setInterval(displaytime, 1000);

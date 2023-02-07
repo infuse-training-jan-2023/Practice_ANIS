@@ -11,9 +11,23 @@ const user = {
 
 const printUserProfile = ({ name, designation, company, hobbies } = user) => {
 
-    let hobb = hobbies.map((hobby)=>{return hobby})
+
+    hobbies.forEach(string_operation)
     // Piyush Sharma is a Senior Software Engineer at Infuse Consulting. He likes Reading, Listening to music and Collecting stamps
-    console.log(name + " is a " +  designation + " at " + company + `. He likes ${hobb}`);
+    console.log(name + " is a " +  designation + " at " + company + `. He likes ${hob}`);
+}
+
+let hob = ""
+function string_operation(items, index, array)
+{
+    if(index == array.length-1)
+    {
+        hob += "and " + items;
+    }
+    else
+    {
+        hob += items + ", ";
+    }
 }
 
 printUserProfile()
