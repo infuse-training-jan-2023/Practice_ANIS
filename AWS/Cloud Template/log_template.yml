@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  This CloudFormation template creates simple Lambda function,
+  which prints CloudFormation resource Arn from the stack.
+
+Parameters:
+  LogBucket:
+    Type: String
+    Default: anismyinfusebucket2
+
+  restApiName:
+    Type: String
+    Default: logApi
+
+Resources:
+  S3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: PublicRead
+      BucketName: !Sub "${LogBucket}"
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - "s3:GetObject"
+            Effect: Allow
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref S3Bucket
+                - /*
+            Principal: "*"
+
+  RestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Ref restApiName
+
+  apiGatewayResourcePath:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      RestApiId: !Ref RestApi
+      ParentId: !GetAtt RestApi.RootResourceId
+      PathPart: !Ref RestApi
+    DependsOn:
+      - RestApi
+
+
+  LambdaFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaFunctionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: LambdaFunctionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - s3:PutObject
+                  - lamda:InvokeFunction
+                Resource: "*"
+
+  LambdaFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn: LambdaFunction
+    Properties:
+      RetentionInDays: 1
+      LogGroupName: !Join
+        - ""
+        - - "/aws/lambda/"
+          - !Ref "LambdaFunction"
+
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: log_timestamp.lambda_handler
+      Runtime: python3.9
+      CodeUri: log_timestamp.py
+      Role: !GetAtt LambdaFunctionRole.Arn
+
+  PostMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      MethodResponses:
+        - StatusCode: 200
+      ResourceId: !Ref apiGatewayResourcePath
+      RestApiId: !Ref RestApi
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri: !Sub >-
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction.Arn}/invocations
+    DependsOn:
+      - apiGatewayResourcePath
+
+Outputs:
+  LambdaFunctionName:
+    Value: !Ref LambdaFunction
