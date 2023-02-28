@@ -45,10 +45,10 @@ Resources:
                 - /*
             Principal: "*"
 
-  LambdaFunctionRole:
+  FunctionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: LambdaFunctionRole
+      RoleName: root
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -73,20 +73,20 @@ Resources:
                   - lamda:InvokeFunction
                 Resource: "*"
 
-  LambdaFunction:
+  LambdaLogFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: log_timestamp.lambda_handler
       Runtime: python3.9
       CodeUri: log_timestamp.py
-      Role: !GetAtt LambdaFunctionRole.Arn
+      Role: !GetAtt FunctionRole.Arn
 
   RestApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Name: !Ref restApiName
     DependsOn:
-     - LambdaFunction
+     - LambdaLogFunction
 
   PostMethod:
     Type: AWS::ApiGateway::Method
@@ -105,7 +105,7 @@ Resources:
         Uri: !Sub
          - >-
           arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFuncNameArn}/invocations
-         - LambdaFuncNameArn: !GetAtt LambdaFunction.Arn
+         - LambdaFuncNameArn: !GetAtt LambdaLogFunction.Arn
 
   APIGatewayDeployment:
    Type: 'AWS::ApiGateway::Deployment'
@@ -118,7 +118,7 @@ Resources:
   MyLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
-      FunctionName: !GetAtt LambdaFunction.Arn
+      FunctionName: !GetAtt LambdaLogFunction.Arn
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStagename}/${APIHttpMethod}/
@@ -127,7 +127,7 @@ Resources:
 
 Outputs:
   LambdaFunctionName:
-    Value: !Ref LambdaFunction
+    Value: !Ref LambdaLogFunction
 
   EndPointURL:
     Value: !Sub "https://${RestApi}.excute-api.${AWS::Region}.amazonaws.com/${ApiStagename}"
